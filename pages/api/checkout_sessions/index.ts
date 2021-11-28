@@ -8,8 +8,10 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   // https://github.com/stripe/stripe-node#configuration
   apiVersion: "2020-03-02",
 });
-interface SessionParams extends Stripe.Checkout.SessionCreateParams {
+interface SessionParams
+  extends Omit<Stripe.Checkout.SessionCreateParams, "payment_method_types"> {
   shipping_options: IShipingOption[];
+  payment_method_types: string[];
 }
 export default async function handler(
   req: NextApiRequest,

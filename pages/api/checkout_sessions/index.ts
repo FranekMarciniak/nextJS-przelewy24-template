@@ -4,15 +4,12 @@ import { validateCartItems } from "use-shopping-cart/src/serverUtil";
 import inventory from "../../../data/products.json";
 import shippingOptions, { IShipingOption } from "../../../data/shiping-options";
 import Stripe from "stripe";
+
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   // https://github.com/stripe/stripe-node#configuration
   apiVersion: "2020-03-02",
 });
-interface SessionParams
-  extends Omit<Stripe.Checkout.SessionCreateParams, "payment_method_types"> {
-  shipping_options: IShipingOption[];
-  payment_method_types: string[];
-}
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -23,7 +20,7 @@ export default async function handler(
       const cartItems = req.body;
       const line_items = validateCartItems(inventory, cartItems);
       // Create Checkout Sessions from body params.
-      const params: SessionParams = {
+      const params: any = {
         submit_type: "pay",
         billing_address_collection: "auto",
         payment_method_types: ["card", "p24"],

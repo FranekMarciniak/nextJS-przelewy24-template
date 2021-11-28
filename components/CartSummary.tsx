@@ -22,7 +22,7 @@ const CartSummary = () => {
     event.preventDefault();
     setLoading(true);
     const response = await fetchPostJSON(
-      "/api/checkout_sessions/cart",
+      "/api/checkout_sessions/",
       cartDetails
     );
     if (response.statusCode === 500) {
